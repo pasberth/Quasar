@@ -19,7 +19,7 @@ Universeのコンストラクタにはクロージャの順序付きコレクシ
 このクロージャ一つ一つの事を`anEra`(時代)と呼称する。(これはラッパーを作った方がいいかも)
 
 ###Universe 
-`Univers`eは1引数のクロージャを複数合成したもの.
+`Universe`は1引数のクロージャを複数合成したもの.
 
 ```javascript
 var anUniverse;
@@ -33,11 +33,11 @@ anUniverse = new Universe([
 "これはUniverseの内部で"
 
 function (x) {
-  return (function (y) {
-    return (function (z) {
-      return z + 2; //big crunch
-    })(y + 1);
-  })(x);
+  return (function (z) {
+    return z + 2; 
+  })((function (y) {
+    return y + 1; 
+  })(x));
 };
 
 "になる"
