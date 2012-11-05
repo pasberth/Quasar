@@ -6,6 +6,10 @@ module Quasar
     @blackhole ||= Blackhole.new
   end
 
+  def darkmatter
+    @darkmatter ||= DarkMatter.new
+  end
+
   class Blackhole < BasicObject
 
     def respond_to? msg
