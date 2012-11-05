@@ -10,6 +10,21 @@ module Quasar
     @darkmatter ||= DarkMatter.new
   end
 
+  class Universe
+
+    BIG_CRUNCH = -> x { x }
+
+    def initialize eras = []
+      @value = eras.reverse_each.inject(BIG_CRUNCH) do |nxt, era|
+        -> x { nxt.call(era.call(x)) }
+      end
+    end
+
+    def value a
+      @value.call(a)
+    end
+  end
+
   class Blackhole < BasicObject
 
     def respond_to? msg
@@ -30,5 +45,10 @@ end
 
 # example
 include Quasar
+anUniverse = Universe.new([ -> x { p x },
+                            -> y { p y + 1 },
+                            -> z { p z + 2 }
+                          ])
+anUniverse.value(0)
 puts blackhole.x.y.z
 puts Quasar.blackhole.x.y.z
