@@ -50,6 +50,23 @@ module Quasar
   end
 
 
+  class Qubit
+
+    def initialize possibilities
+      @possibilities = possibilities
+    end
+
+    def bind &fn
+      Qubit.new @possibilities.map &fn
+    end
+
+    def == other
+      return false unless other.is_a? Qubit
+      return @possibilities == other.instance_variable_get(:@possibilities)
+    end
+  end
+
+
   class Blackhole < BasicObject
 
     def respond_to? msg
@@ -68,22 +85,41 @@ module Quasar
   class DarkMatter < BasicObject; end
 end
 
-# example
-include Quasar
+if __FILE__ == $0
 
-anUniverse = Universe.new([ -> x { p x + 1 },
-                            -> y { p y + 2 },
-                            -> z { p z + 3 }
-                          ])
-anUniverse.value(0)
-# 1
-# 3
-# 6
+  # example
+  require 'test/unit'
+  class TestQuasar < Test::Unit::TestCase
 
-timemachine = Timemachine.new(anUniverse)
-timemachine.back_to(1).value(0)
-# 2
-# 5
+    include Quasar
 
-puts blackhole.x.y.z
-puts Quasar.blackhole.x.y.z
+    def test_qubit
+      qubit = Qubit.new([1,2,3,4,5])
+      result = qubit.bind { |possibility| possibility + 1 }
+      assert_equal(Qubit.new([2,3,4,5,6]), result)
+    end
+
+    def test_universe
+      anUniverse = Universe.new([ -> x { x + "b" },
+                                  -> y { y + "c" },
+                                  -> z { z + "d" }
+                                ])
+      result = anUniverse.value("a")
+      assert_equal("abcd", result)
+    end
+
+    def test_timemachine
+      anUniverse = Universe.new([ -> x { x + "b" },
+                                  -> y { y + "c" },
+                                  -> z { z + "d" }
+                                ])
+      timemachine = Timemachine.new(anUniverse)
+      result = timemachine.back_to(1).value("a")
+      assert_equal("acd", result)
+    end
+
+    def test_blackhole
+      assert_equal(blackhole, blackhole.x.y.z)
+    end
+  end
+end
