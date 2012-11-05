@@ -41,7 +41,8 @@ function (x) {
   })(x));
 };
 
-"になる"
+"になる. "
+"first eraの結果がsecond eraに渡されて、second eraの結果がthird eraに渡されて..."
 ```
 
 `anUniverse`(Universeのインスタンス)は`value(a)`っていうメソッドを持ってて、これを呼ぶと内部の合成された関数が評価される。
