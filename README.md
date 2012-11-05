@@ -1,4 +1,4 @@
-Quasar.js
+Quasar
 =========
 
 program multiverse
