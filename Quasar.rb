@@ -20,6 +20,8 @@ module Quasar
       self
     end
   end
+
+  class DarkMatter < BasicObject; end
 end
 
 # example
