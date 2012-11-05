@@ -4,6 +4,7 @@ Quasar
 program multiverse
 
 いろんな言語で謎ライブラリとして作りたい。
+基本的な機能はここに追加されたものとして、実装の詳細は各言語の文化に従う。
 
 Multiverse (概念)
 -----------------
@@ -98,6 +99,7 @@ new QuantumComputer(aParallelWorld); //->Bag(1, 2, 3)
 Blackhole (クラス)
 ------------------
 ブラックホールはMaybeモナドのNothingに近い。valueメソッドを持ち、何を与えられても何もせずselfを返す。
+method_missing的なのがある言語ならそれを使ってどんなメソッドにどんな値が渡されても吸収するとかっこいい。
 
 ```javascript
 new Blackhole().value(1).value(2).value(3).value(4) //-> Blackhole
