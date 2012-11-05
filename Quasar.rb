@@ -67,6 +67,18 @@ module Quasar
   end
 
 
+  class ParallelWorld < Array
+  end
+
+
+  class QuantumComputer
+
+    def self.new parallel_world
+      parallel_world.map { |universe| universe.value(Quasar.blackhole) }
+    end
+  end
+
+
   class Blackhole < BasicObject
 
     def respond_to? msg
@@ -93,12 +105,6 @@ if __FILE__ == $0
 
     include Quasar
 
-    def test_qubit
-      qubit = Qubit.new([1,2,3,4,5])
-      result = qubit.bind { |possibility| possibility + 1 }
-      assert_equal(Qubit.new([2,3,4,5,6]), result)
-    end
-
     def test_universe
       anUniverse = Universe.new([ -> x { x + "b" },
                                   -> y { y + "c" },
@@ -116,6 +122,21 @@ if __FILE__ == $0
       timemachine = Timemachine.new(anUniverse)
       result = timemachine.back_to(1).value("a")
       assert_equal("acd", result)
+    end
+
+    def test_qubit
+      qubit = Qubit.new([1,2,3,4,5])
+      result = qubit.bind { |possibility| possibility + 1 }
+      assert_equal(Qubit.new([2,3,4,5,6]), result)
+    end
+
+    def test_quantum_computer
+      aParallelWorld = ParallelWorld.new([ Universe.new([-> x { 1 }]),
+                                           Universe.new([-> x { 2 }]),
+                                           Universe.new([-> x { 3 }])
+                                         ])
+      result = QuantumComputer.new(aParallelWorld)
+      assert_equal([1,2,3], result)
     end
 
     def test_blackhole
