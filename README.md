@@ -33,12 +33,14 @@ anUniverse = new Universe([
 
 "これはUniverseの内部で"
 
-function (x) {
-  return (function (z) {
-    return z + 2; 
-  })((function (y) {
-    return y + 1; 
-  })(x));
+function (a) {
+  (function (z) {
+    return z + 2; //third era and big crunch
+  }(function (y) {
+    return y + 1; //second era
+  }(function (x) {
+    return x;  //first era
+  }(a))));
 };
 
 "になる. "
@@ -59,7 +61,7 @@ Timemachine (クラス)
 ```javascript
 var timemachine;
 timemachine = Timemachine new(anUniverse);
-timemachine.backTo(1); //-> Universe(function (y) { return (function (z) { return z + 2; })(y+1); })
+timemachine.backTo(1); //-> Universe(function (a) { (function (z) { return z + 2; }(function () { return y+1 }(a))); })
 ```
 
 Qubit (クラス)
