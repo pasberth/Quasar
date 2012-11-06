@@ -98,7 +98,8 @@ aParallelWorld = new ParallelWorld([
   new Universe([function (x) {return 2;}]),
   new Universe([function (x) {return 3;}])
 ]);
-new QuantumComputer(aParallelWorld); //->Bag(1, 2, 3)
+var qc = new QuantumComputer(aParallelWorld);
+qc.value(null); //->Bag(1, 2, 3)
 ```
 
 Blackhole (クラス)
