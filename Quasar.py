@@ -11,7 +11,10 @@ class Universe(object):
         def build_universe(eras):
             if len(eras) == 0:
                 return Universe.BIG_CRUNCH
-            return lambda x: build_universe(eras[1:])(eras[0](x))
+            def nxt(x):
+                return build_universe(eras[1:])(eras[0](x))
+            return nxt
+
         self.universe = build_universe(eras)
 
     def value(self, x):
