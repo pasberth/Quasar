@@ -22,6 +22,28 @@ class Universe(object):
 
     __call__ = value
 
+class Timemachine(object):
+
+    def __init__(self, universe):
+        self.universe = universe
+
+    def back_to(self, at):
+        return Universe(self.universe.eras[at:])
+
+class Qubit(object):
+
+    def __init__(self, possibilities):
+        self.possibilities = possibilities
+    
+    def __str__(self):
+        return str(self.possibilities)
+
+    def bind(self, fn):
+        return Qubit([fn(x) for x in self.possibilities])
+
+class ParallelWorld(list):
+    pass
+
 class Blackhole(object):
 
     def __getattribute__(self, name):
@@ -33,8 +55,32 @@ class DarkMatter(object):
 blackhole = Blackhole()
 darkmatter = DarkMatter()
 
-print blackhole.x.y.z
-print Universe([ lambda x: x + "x",
+class QuantumComputer(object):
+
+    def __init__(self, pallalel_world):
+        self.pallalel_world = pallalel_world
+
+    def value(self, x = blackhole):
+        return [universe.value(blackhole) for universe in self.pallalel_world]
+
+    __call__ = value
+
+anUniverse = Universe([ lambda x: x + "x",
                  lambda y: y + "y",
                  lambda z: z + "z"
-               ])("a")
+               ])
+print anUniverse("a") # axyz
+
+timemachine = Timemachine(anUniverse)
+print timemachine.back_to(1)("a") # ayz
+
+qubit = Qubit([1,2,3,4,5])
+print qubit.bind(lambda x: x + 1)
+
+aParalelWorld = ParallelWorld([ Universe([lambda x: 1]),
+                                Universe([lambda x: 2]),
+                                Universe([lambda x: 3]),
+                                ])
+qc = QuantumComputer(aParalelWorld)
+print qc()
+print blackhole.x.y.z
