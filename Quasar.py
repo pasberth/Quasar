@@ -1,6 +1,3 @@
-# coding: utf-8
-# 途中までしか実装してない(
-
 class Universe(object):
 
     @staticmethod
