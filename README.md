@@ -20,7 +20,8 @@ Universeのコンストラクタにはクロージャの順序付きコレクシ
 このクロージャ一つ一つの事を`anEra`(時代)と呼称する。(これはラッパーを作った方がいいかも)
 
 ###Universe 
-`Universe`は1引数のクロージャを複数合成したもの.
+`Universe`は1引数のクロージャ(era)を複数合成したもの.   
+コンストラクタにはコレクションを渡す実装にしてもいいし、可変長引数を取れるようにしても良い
 
 ```javascript
 var anUniverse;
@@ -33,15 +34,18 @@ anUniverse = new Universe([
 
 "これはUniverseの内部で"
 
-function (x) {
+function (a) {
   return (function (z) {
-    return z + 2; 
-  })((function (y) {
-    return y + 1; 
-  })(x));
+    return z + 2; //third era and big crunch
+  }(function (y) {
+    return y + 1; //second era
+  }(function (x) {
+    return x;  //first era
+  }(a))));
 };
 
-"になる"
+"になる. "
+"first eraの結果がsecond eraに渡されて、second eraの結果がthird eraに渡されて..."
 ```
 
 `anUniverse`(Universeのインスタンス)は`value(a)`っていうメソッドを持ってて、これを呼ぶと内部の合成された関数が評価される。
@@ -58,14 +62,15 @@ Timemachine (クラス)
 ```javascript
 var timemachine;
 timemachine = Timemachine new(anUniverse);
-timemachine.backTo(1); //-> Universe(function (y) { return (function (z) { return z + 2; })(y+1); })
+timemachine.backTo(1); //-> Universe(function (a) { return (function (z) { return z + 2; }(function () { return y+1 }(a))); })
 ```
 
 Qubit (クラス)
 --------------
 `Qubit`は量子ビットのこと。重ね合わせの状態を表現する。
 実体は可能性のコレクションのモナド。Bagのようなコレクションが望ましい。
-宇宙レンジで複数の宇宙を自動的に作るときに使う
+宇宙レンジで複数の宇宙を自動的に作るときに使う.
+コンストラクタにはコレクションを渡す実装にしてもいいし、可変長引数を取れるようにしても良い
 
 ```javascript
 var qubit;
@@ -93,7 +98,8 @@ aParallelWorld = new ParallelWorld([
   new Universe([function (x) {return 2;}]),
   new Universe([function (x) {return 3;}])
 ]);
-new QuantumComputer(aParallelWorld); //->Bag(1, 2, 3)
+var qc = new QuantumComputer(aParallelWorld);
+qc.value(null); //->Bag(1, 2, 3)
 ```
 
 Blackhole (クラス)
