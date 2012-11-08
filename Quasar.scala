@@ -4,7 +4,7 @@ object Quasar {
     def value(obj: T): Option[T]
   }
 
-  class Universe[T](eras: Array[Function1[T, T]]) {
+  class Universe[T](eras: Array[T => T]) {
     val BIG_CRUNCH = (x: T) => x
     val universe = eras.reverse.fold(BIG_CRUNCH)(
 				      (nxt, era) => (x => nxt(era(x))))
